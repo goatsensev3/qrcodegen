@@ -166,24 +166,25 @@ local function convertQRToBlueprints()
     local baseCFrame = CFrame.new(center) -- Starting CFrame
 
     for row = 1, QR_SIZE do
-        task.wait(0.1)
+        task.wait(0.001)
         for col = 1, QR_SIZE do
-            task.wait(0.1)
+            task.wait(0.001)
             -- Ensure that qrCodeData[row] and qrCodeData[row][col] exist
             if qrCodeData[row] and qrCodeData[row][col] ~= nil then
                 local data = qrCodeData[row][col]
-
-                -- Calculate the offset from the center for each block (row, col)
-                local xOffset = (col - (QR_SIZE / 2)) * BLOCK_SIZE
-                local zOffset = (row - (QR_SIZE / 2)) * BLOCK_SIZE
-
-                -- Ensure the offset stays within the valid range (-99.5 to 99.5)
-                xOffset = math.clamp(xOffset, -MAX_CFRAME_OFFSET, MAX_CFRAME_OFFSET)
-                zOffset = math.clamp(zOffset, -MAX_CFRAME_OFFSET, MAX_CFRAME_OFFSET)
-
-                local cframeOffset = CFrame.new(xOffset, 0, zOffset)
                 if data == false then
-                    place(cframeOffset)
+                    -- Calculate the offset from the center for each block (row, col)
+                    local xOffset = (col - (QR_SIZE / 2)) * BLOCK_SIZE
+                    local zOffset = (row - (QR_SIZE / 2)) * BLOCK_SIZE
+
+                    -- Ensure the offset stays within the valid range (-99.5 to 99.5)
+                    xOffset = math.clamp(xOffset, -MAX_CFRAME_OFFSET, MAX_CFRAME_OFFSET)
+                    zOffset = math.clamp(zOffset, -MAX_CFRAME_OFFSET, MAX_CFRAME_OFFSET)
+
+                    local cframeOffset = CFrame.new(xOffset, 0, zOffset)
+                    if data == false then
+                        place(cframeOffset)
+                    end
                 end
             else
                 warn("qrCodeData[" .. row .. "][" .. col .. "] is nil!")
