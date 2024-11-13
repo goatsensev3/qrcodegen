@@ -175,7 +175,9 @@ local function convertQRToBlueprints()
     local baseCFrame = CFrame.new(center) -- Starting CFrame
 
     for row = 1, QR_SIZE do
+        task.wait(0.1)
         for col = 1, QR_SIZE do
+            task.wait(0.1)
             -- Ensure that qrCodeData[row] and qrCodeData[row][col] exist
             if qrCodeData[row] and qrCodeData[row][col] ~= nil then
                 local data = qrCodeData[row][col]
