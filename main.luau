@@ -160,17 +160,8 @@ QR_SIZE = #qrCodeData
 print(QR_SIZE)
 BLOCK_SIZE = 1
 MAX_CFRAME_OFFSET = 99.5
-local function validateQRData()
-    for row = 1, #QR_SIZE do
-        if not qrCodeData[row] then
-            warn("Row " .. row .. " is missing from qrCodeData!")
-        elseif #qrCodeData[row] ~= QR_SIZE then
-            warn("Row " .. row .. " does not have " .. QR_SIZE .. " columns!")
-        end
-    end
-end
+
 local function convertQRToBlueprints()
-    validateQRData()
 
     local center = Vector3.new(0, 0, 0)  -- This is the center point for placing blocks
     local baseCFrame = CFrame.new(center) -- Starting CFrame
