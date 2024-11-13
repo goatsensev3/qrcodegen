@@ -62,9 +62,7 @@ function place(offset)
 end
 
 
-local QR_SIZE = 89  
-local BLOCK_SIZE = 1
-local MAX_CFRAME_OFFSET = 99.5
+
 
 
 local qrCodeData = {
@@ -158,9 +156,11 @@ local qrCodeData = {
     {False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False},
     {False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False},
 }
-
+QR_SIZE = #qrCodeData
+BLOCK_SIZE = 1
+MAX_CFRAME_OFFSET = 99.5
 local function validateQRData()
-    for row = 1, QR_SIZE do
+    for row = 1, #QR_SIZE do
         if not qrCodeData[row] then
             warn("Row " .. row .. " is missing from qrCodeData!")
         elseif #qrCodeData[row] ~= QR_SIZE then
