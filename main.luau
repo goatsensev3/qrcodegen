@@ -219,14 +219,22 @@ function get1x1()
     end
 
     for _, part in pairs(tosawmill) do
-        part:FindFirstChild("WoodSection").Position.Color = Color3.fromRGB(0, 255, 0) 
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(part:FindFirstChild("WoodSection").Position) * CFrame.new(5, 4, 0)
-        for i = 1,50 do
-            task.wait()
-            game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
+        if part:FindFirstChild("WoodSection") then
+            part:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 255, 0) 
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(part:FindFirstChild("WoodSection").Position) * CFrame.new(5, 4, 0)
+            for i = 1,50 do
+                task.wait()
+                game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
+            end
+            if isnetworkowner(part) then
+                part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
+            else
+                game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(v.Parent)
+                part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
+            end
+            
+            print("moved")
         end
-        part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
-        print("moved")
     end
     tosawmill = {}
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedsawmill.Particles.CFrame
