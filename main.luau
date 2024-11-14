@@ -2,7 +2,7 @@ birchregion = nil
 movebirch = true
 newbirch = game.Workspace
 mainuser = "not_pyalt"
-
+tosawmill = {}
 
 for _, sawmill in ipairs(workspace.PlayerModels:GetChildren()) do
     if sawmill.Name == "Sawmill" then
@@ -31,12 +31,7 @@ function newpart(part)
                     end
                 end
                 if count == 1 then
-                    for i = 1,50 do
-                        task.wait()
-                        game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
-                    end
-                    part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
-                    print("moved")
+                    table.insert(tosawmill, part)
                 end
             end
         end
@@ -219,8 +214,20 @@ function get1x1()
             task.wait(0.001)
         end
         section.Color = startcolour
-        task.wait(0.1)
     end
+
+    for _, part in pairs(tosawmill) do
+        part:FindFirstChild("WoodSection").Position.Color = Color3.fromRGB(0, 255, 0) 
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(part:FindFirstChild("WoodSection").Position) * CFrame.new(5, 4, 0)
+        for i = 1,50 do
+            task.wait()
+            game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
+        end
+        part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
+        print("moved")
+    end
+    tosawmill = {}
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedsawmill.Particles.CFrame
 end
 get1x1()
 
