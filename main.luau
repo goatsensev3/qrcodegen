@@ -87,7 +87,7 @@ function getwood()
                     for _, section in tree:GetChildren() do
                         if section.Name == "WoodSection" then
                             if section.ID.Value == 1 then
-                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = section.Position*CFrame.new(5,0,0)
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position)*CFrame.new(5,0,0)
                                 break
                             end
                         end
