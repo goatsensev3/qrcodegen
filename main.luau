@@ -9,10 +9,13 @@ function newpart(part)
         end
     end
 end
+
 game.Workspace:WaitForChild("LogModels").ChildAdded:Connect(newpart)
+
+
 for _, sawmill in ipairs(workspace.PlayerModels:GetChildren()) do
-    if tostring(sawmill:WaitForChild("Owner").Value) == mainuser then
-        if sawmill.Name == "Model" then
+    if sawmill.Name == "Model" then
+        if tostring(sawmill:FindFirstChild("Owner").Value) == mainuser then
             if sawmill.ItemName.Value == "Sawmill" then
                 selectedsawmill = sawmill
             end
