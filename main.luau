@@ -113,7 +113,6 @@ function getwood()
                         game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
                         task.wait(0.01)
                     end
-                    break
                     game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
                     return tree
                 end
@@ -126,7 +125,7 @@ function get1x1()
     print(tree.Name)
     for _, section in ipairs(tree:GetChildren()) do
         if section.Name == "WoodSection" then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position)*CFrame.new(5,0,0)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position)*CFrame.new(5,4,0)
             best = getBestAxeNoRequire()
                 args = {
                     [1] = tree.CutEvent,
@@ -142,8 +141,8 @@ function get1x1()
                     }
             
                 }
-                game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
                 while section.Parent == tree do
+                    print(section.Parent)
                     game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
                     task.wait(0.01)
                 end
