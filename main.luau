@@ -8,14 +8,18 @@ function newpart(part)
             print("new part - " .. part.Name)
             newbirch = part
             if movebirch == true then
-                if #part:GetChildren() == 6 then
+                local count = 0
+                for _, i in ipairs(part:GetChildren()) do
+                    if i.Name == "WoodSection" then
+                        count += 1
+                    end
+                end
+                if count == 1 then
                     for i = 1,50 do
                         task.wait()
                         game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
                     end
                     part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
-                else
-                    print(#part:GetChildren())
                 end
             end
         end
