@@ -229,7 +229,7 @@ function get1x1()
             if isnetworkowner(part) then
                 part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
             else
-                game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(v.Parent)
+                game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
                 part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
             end
             
