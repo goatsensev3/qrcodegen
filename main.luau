@@ -106,55 +106,57 @@ end
 
 function getwood()
     for _, tree in ipairs(birchregion:GetChildren()) do
-        if tree:FindFirstChild("TreeClass").Value == "Birch" then
-            if #tree:GetChildren() >= 8 then
-                for _, section in tree:GetChildren() do
-                    if section.Name == "WoodSection" then
-                        if section.ID.Value == 1 then
-                            local humanoidRootPart = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                            if not humanoidRootPart then
-                                -- Handle missing HumanoidRootPart error
-                                return nil
+        if tree:FindFirstChild("TreeClass") then
+            if tree:FindFirstChild("TreeClass").Value == "Birch" then
+                if #tree:GetChildren() >= 8 then
+                    for _, section in tree:GetChildren() do
+                        if section.Name == "WoodSection" then
+                            if section.ID.Value == 1 then
+                                local humanoidRootPart = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                                if not humanoidRootPart then
+                                    -- Handle missing HumanoidRootPart error
+                                    return nil
+                                end
+                                humanoidRootPart.CFrame = CFrame.new(section.Position) * CFrame.new(5, 0, 0)
+                                break
                             end
-                            humanoidRootPart.CFrame = CFrame.new(section.Position) * CFrame.new(5, 0, 0)
-                            break
                         end
                     end
-                end
 
-                -- Ensure we have a valid axe
-                local best = getBestAxeNoRequire()
+                    -- Ensure we have a valid axe
+                    local best = getBestAxeNoRequire()
 
-                -- Ensure CutEvent exists
-                if not tree:FindFirstChild("CutEvent") then
-                    print("no event cuzzy")
-                    return nil
-                end
-
-                -- Prepare arguments for the action
-                local args = {
-                    [1] = tree.CutEvent,
-                    [2] = {
-                        ["tool"] = best[1],
-                        ["faceVector"] = Vector3.new(-1, 0, 0),
-                        ["height"] = 0.7449536323547363,
-                        ["sectionId"] = 1,
-                        ["hitPoints"] = best[3],
-                        ["cooldown"] = best[2],
-                        ["cuttingClass"] = "Axe"
-                    }
-                }
-
-                local timeout = tick() + 30  -- 10-second timeout
-                while not tree:FindFirstChild("InnerWood") do
-                    if tick() > timeout then
-                        return tree
+                    -- Ensure CutEvent exists
+                    if not tree:FindFirstChild("CutEvent") then
+                        print("no event cuzzy")
+                        return nil
                     end
-                    game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
-                    task.wait(0.01)
+
+                    -- Prepare arguments for the action
+                    local args = {
+                        [1] = tree.CutEvent,
+                        [2] = {
+                            ["tool"] = best[1],
+                            ["faceVector"] = Vector3.new(-1, 0, 0),
+                            ["height"] = 0.7449536323547363,
+                            ["sectionId"] = 1,
+                            ["hitPoints"] = best[3],
+                            ["cooldown"] = best[2],
+                            ["cuttingClass"] = "Axe"
+                        }
+                    }
+
+                    local timeout = tick() + 30  -- 10-second timeout
+                    while not tree:FindFirstChild("InnerWood") do
+                        if tick() > timeout then
+                            return tree
+                        end
+                        game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
+                        task.wait(0.01)
+                    end
+                    task.wait(0.1)
+                    return newbirch
                 end
-                task.wait(0.1)
-                return newbirch
             end
         end
     end
