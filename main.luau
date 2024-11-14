@@ -8,12 +8,15 @@ function newpart(part)
             print("new part - " .. part.Name)
             newbirch = part
             if movebirch == true then
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position) * CFrame.new(5, 4, 0)
-                for i = 1,50 do
-                    task.wait()
-                    game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(section.Parent)
+                if #part:GetChildren() == 7 then
+                    for i = 1,50 do
+                        task.wait()
+                        game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
+                    end
+                    part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
+                else
+                    print(#part:GetChildren())
                 end
-                section.CFrame = selectedsawmill.Particles.CFrame
             end
         end
     end
