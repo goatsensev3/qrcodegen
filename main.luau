@@ -2,6 +2,22 @@ birchregion = nil
 movebirch = true
 newbirch = game.Workspace
 mainuser = "not_pyalt"
+
+
+for _, sawmill in ipairs(workspace.PlayerModels:GetChildren()) do
+    if sawmill.Name == "Sawmill" then
+        if sawmill:FindFirstChild("Owner") then
+            if tostring(sawmill:FindFirstChild("Owner").Value) == game.Players.LocalPlayer.Name then
+                if sawmill.ItemName.Value == "Sawmill" then
+                    selectedsawmill = sawmill
+                    break
+                end
+            end
+        end
+    end
+end
+
+
 function newpart(part)
     if part.Name == "Loose_Birch" then
         if tostring(part:WaitForChild("Owner").Value) == game.Players.LocalPlayer.Name then
@@ -20,6 +36,7 @@ function newpart(part)
                         game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
                     end
                     part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
+                    print("moved")
                 end
             end
         end
@@ -29,17 +46,7 @@ end
 game.Workspace:WaitForChild("LogModels").ChildAdded:Connect(newpart)
 
 
-for _, sawmill in ipairs(workspace.PlayerModels:GetChildren()) do
-    if sawmill.Name == "Model" then
-        if sawmill:FindFirstChild("Owner") then
-            if tostring(sawmill:FindFirstChild("Owner").Value) == game.Players.LocalPlayer.Name then
-                if sawmill.ItemName.Value == "Sawmill" then
-                    selectedsawmill = sawmill
-                end
-            end
-        end
-    end
-end
+
 
 for _, region in ipairs(workspace:GetChildren()) do
     if region.Name == "TreeRegion" then
