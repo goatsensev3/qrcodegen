@@ -1,5 +1,6 @@
 birchregion = nil
 newbirch = game.Workspace
+mainuser = "not_pyalt"
 function newpart(part)
     if part.Name == "Loose_Birch" then
         if tostring(part:WaitForChild("Owner").Value) == game.Players.LocalPlayer.Name then
@@ -9,6 +10,15 @@ function newpart(part)
     end
 end
 game.Workspace:WaitForChild("LogModels").ChildAdded:Connect(newpart)
+for _, sawmill in ipairs(workspace.PlayerModels:GetChildren()) do
+    if tostring(sawmill:WaitForChild("Owner").Value) == mainuser then
+        if sawmill.Name == "Model" then
+            if sawmill.ItemName.Value == "Sawmill" then
+                selectedsawmill = sawmill
+            end
+        end
+    end
+end
 
 for _, region in ipairs(workspace:GetChildren()) do
     if region.Name == "TreeRegion" then
@@ -159,10 +169,8 @@ function get1x1()
     for _, section in ipairs(collectParts(tree)) do
         startcolour = section.Color
         print(section.Name .. section.ID.Value)
-        section.Color = Color3.fromRGB(0, 1, 0) 
+        section.Color = Color3.fromRGB(0, 255, 0) 
         local best = getBestAxeNoRequire()
-
-        -- Prepare arguments for the cut event
         print(section.Size.Y)
         args = {
             [1] = section.Parent.CutEvent,
@@ -180,11 +188,16 @@ function get1x1()
         while oldbirch == newbirch do
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position) * CFrame.new(5, 4, 0)
             game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
-            task.wait(1)
-            print("working on" .. section.ID.Value)
+            task.wait(0.001)
         end
-        print("Chopped!!")
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position) * CFrame.new(5, 4, 0)
+        for i = 1,50 do
+            task.wait()
+            game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(section.Parent)
+        end
+        section.CFrame = selectedsawmill.Particles.CFrame
         section.Color = startcolour
+        task.wait(0.1)
     end
 end
 get1x1()
