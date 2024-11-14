@@ -15,9 +15,11 @@ game.Workspace:WaitForChild("LogModels").ChildAdded:Connect(newpart)
 
 for _, sawmill in ipairs(workspace.PlayerModels:GetChildren()) do
     if sawmill.Name == "Model" then
-        if tostring(sawmill:FindFirstChild("Owner").Value) == mainuser then
-            if sawmill.ItemName.Value == "Sawmill" then
-                selectedsawmill = sawmill
+        if sawmill:FindFirstChild("Owner") then
+            if tostring(sawmill:FindFirstChild("Owner").Value) == game.Players.LocalPlayer.Name then
+                if sawmill.ItemName.Value == "Sawmill" then
+                    selectedsawmill = sawmill
+                end
             end
         end
     end
