@@ -220,25 +220,27 @@ function get1x1()
 
     for _, part in pairs(tosawmill) do
         if part:FindFirstChild("WoodSection") then
-            part:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 255, 0) 
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(part:FindFirstChild("WoodSection").Position) * CFrame.new(5, 4, 0)
-            for i = 1,50 do
-                task.wait()
-                game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
+            while part.Parent ~= nil do
+                part:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 255, 0) 
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(part:FindFirstChild("WoodSection").Position) * CFrame.new(5, 4, 0)
+                for i = 1,50 do
+                    task.wait()
+                    game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
+                end
+                if isnetworkowner(part) then
+                    part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
+                else
+                    game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
+                    part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
+                end
+                task.wait(0.1)
             end
-            if isnetworkowner(part) then
-                part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
-            else
-                game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
-                part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
-            end
-            part:FindFirstChild("WoodSection").Color = Color3.fromRGB(255, 0, 0) 
             print("moved")
         end
     end
     tosawmill = {}
     task.wait(1)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedsawmill.Particles.CFrame
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedsawmill.PrimaryPart.CFrame*CFrame.new(0,10,0)
 end
 get1x1()
 
