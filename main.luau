@@ -1,4 +1,5 @@
 birchregion = nil
+movebirch = false
 newbirch = game.Workspace
 mainuser = "not_pyalt"
 function newpart(part)
@@ -6,6 +7,14 @@ function newpart(part)
         if tostring(part:WaitForChild("Owner").Value) == game.Players.LocalPlayer.Name then
             print("new part - " .. part.Name)
             newbirch = part
+            if movebirch == true then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position) * CFrame.new(5, 4, 0)
+                for i = 1,50 do
+                    task.wait()
+                    game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(section.Parent)
+                end
+                section.CFrame = selectedsawmill.Particles.CFrame
+            end
         end
     end
 end
@@ -142,6 +151,7 @@ function getwood()
     end
 end
 function get1x1()
+    movebirch = true
     tree = getwood()
     if tree == nil then
         print("nil")
@@ -195,15 +205,12 @@ function get1x1()
             game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
             task.wait(0.001)
         end
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position) * CFrame.new(5, 4, 0)
-        for i = 1,50 do
-            task.wait()
-            game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(section.Parent)
-        end
-        section.CFrame = selectedsawmill.Particles.CFrame
         section.Color = startcolour
         task.wait(0.1)
     end
+    movebirch = false
 end
 get1x1()
+
+
 
