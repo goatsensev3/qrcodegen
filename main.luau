@@ -8,7 +8,7 @@ function newpart(part)
             print("new part - " .. part.Name)
             newbirch = part
             if movebirch == true then
-                if #part:GetChildren() == 7 then
+                if #part:GetChildren() == 6 then
                     for i = 1,50 do
                         task.wait()
                         game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
