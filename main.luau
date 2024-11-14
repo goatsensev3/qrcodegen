@@ -1,5 +1,5 @@
 birchregion = nil
-movebirch = false
+movebirch = true
 newbirch = game.Workspace
 mainuser = "not_pyalt"
 function newpart(part)
@@ -154,7 +154,6 @@ function getwood()
     end
 end
 function get1x1()
-    movebirch = true
     tree = getwood()
     if tree == nil then
         print("nil")
@@ -211,7 +210,6 @@ function get1x1()
         section.Color = startcolour
         task.wait(0.1)
     end
-    movebirch = false
 end
 get1x1()
 
