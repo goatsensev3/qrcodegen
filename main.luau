@@ -123,7 +123,8 @@ function getwood()
 end
 function get1x1()
     tree = getwood()
-    for _, section in tree:GetChildren() do
+    print(tree.Name)
+    for _, section in ipairs(tree:GetChildren()) do
         if section.Name == "WoodSection" then
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position)*CFrame.new(5,0,0)
             best = getBestAxeNoRequire()
