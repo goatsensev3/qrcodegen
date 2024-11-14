@@ -1,25 +1,15 @@
-
--- FILLNIG
-
-
-function findwood()
-    for _, wood in ipairs(workspace.PlayerModels:GetChildren()) do
-        if wood.Name == "Plank" then
-            if wood.Owner.OwnerString == game.Players.LocalPlayer.Name then
-                if wood.TreeClass.Value == "Birch" then
-                    if math.floor(size.X) * math.floor(size.Y) * math.floor(size.Z) >= 2 then
-                        --autochop code
-                    else
-                        return wood
-                    end
-                end
-            end
+birchregion = nil
+newbirch = game.Workspace
+function newpart(part)
+    print("new part - " .. part.Name)
+    if part.Name == "Loose_Birch" then
+        if tostring(part:WaitForChild("Owner").Value) == game.Players.LocalPlayer.Name then
+            newbirch = part
         end
     end
-    return nil
 end
+game.Workspace:WaitForChild("LogModels").ChildAdded:Connect(newpart)
 
-birchregion = nil
 for _, region in ipairs(workspace:GetChildren()) do
     if region.Name == "TreeRegion" then
         for _, tree in ipairs(region:GetChildren()) do
@@ -130,57 +120,82 @@ function getwood()
                     game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
                     task.wait(0.01)
                 end
-                return tree
+                task.wait(0.1)
+                return newbirch
             end
         end
     end
 end
 function get1x1()
-    -- Retrieve the tree from getwood function
-    local tree = getwood()
-    
-    -- Check if tree is valid
+    tree = getwood()
     if tree == nil then
         print("nil")
     else
-        print(tree.Name)
+        print("tree found!" .. tree.Name)
     end
 
     -- Iterate over sections in the tree
-    for _, section in ipairs(tree:GetChildren()) do
-        if section.Name == "WoodSection" then
-            -- Move the character's HumanoidRootPart to the section's position
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position) * CFrame.new(5, 4, 0)
-            
-            -- Get the best axe
-            local best = getBestAxeNoRequire()
-
-            -- Prepare arguments for the cut event
-            print(section.Size.Y)
-            local args = {
-                [1] = section.Parent.CutEvent,
-                [2] = {
-                    ["tool"] = best[1],
-                    ["faceVector"] = Vector3.new(-1, 0, 0),
-                    ["height"] = section.Size.Y,
-                    ["sectionId"] = section.ID.Value,
-                    ["hitPoints"] = best[3],
-                    ["cooldown"] = best[2],
-                    ["cuttingClass"] = "Axe"
-                }
-            }
-
-            -- While the section is part of the tree, keep interacting
-            woodSectionCount = 2
-            while woodSectionCount ~= 1 do
-                for _, part in ipairs(section.Parent:GetChildren()) do
-                    if part.Name == "WoodSection" then
-                        woodSectionCount = woodSectionCount + 1
+    function collectParts(model)
+        local partsList = {}
+        for _, child in ipairs(model:GetChildren()) do
+            local idValue = child:FindFirstChild("ID")
+            local childIDsValue = child:FindFirstChild("ChildIDs")
+            if child.Name == "WoodSection" then
+                if childIDsValue then
+                    if #childIDsValue:GetChildren() ~= 0 then
+                        table.insert(partsList, {part = child, id = idValue.Value})
                     end
                 end
-                game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
-                task.wait(0.01)
             end
+        end
+        table.sort(partsList, function(a, b) return a.id > b.id end)
+        -- Return only the parts, not wrapped in an additional table
+        local sortedParts = {}
+        for _, item in ipairs(partsList) do
+            table.insert(sortedParts, item.part)
+        end
+        return sortedParts
+    end
+    for _, section in ipairs(collectParts(tree)) do
+        print(section.Name .. section.ID.Value)
+        local best = getBestAxeNoRequire()
+
+        -- Prepare arguments for the cut event
+        print(section.Size.Y)
+        local args = {
+            [1] = section.Parent.CutEvent,
+            [2] = {
+                ["tool"] = best[1],
+                ["faceVector"] = Vector3.new(-1, 0, 0),
+                ["height"] = section.Size.Y,
+                ["sectionId"] = section.ID.Value,
+                ["hitPoints"] = best[3],
+                ["cooldown"] = best[2],
+                ["cuttingClass"] = "Axe"
+            }
+        }
+
+        -- While the section is part of the tree, keep interacting
+        startcount = 0
+        for _, countpart in ipairs(tree:GetChildren()) do
+            if countpart.Name == "WoodSection" then
+                startcount += 1
+            end
+        end
+        print("start " .. startcount)
+        newcount = startcount
+        while startcount >= newcount do
+            newcount = 0
+            for _, countpart in ipairs(tree:GetChildren()) do
+                if countpart.Name == "WoodSection" then
+                    newcount += 1
+                end
+            end
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position) * CFrame.new(5, 4, 0)
+            game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
+            task.wait(0.01)
         end
     end
 end
+get1x1()
+
