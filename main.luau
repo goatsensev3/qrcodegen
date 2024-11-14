@@ -1,6 +1,7 @@
+
 -- FILLNIG
 birchregion = nil
-for _, region in ipairs(workspace:GetChildren()) do#
+for _, region in ipairs(workspace:GetChildren()) do
     if region.Name == "TreeRegion" then
         for _, tree in ipairs(region:GetChildren()) do
             if tree:FindFirstChild("TreeClass") then
@@ -119,3 +120,4 @@ function getwood()
 end
     
 getwood()
+
