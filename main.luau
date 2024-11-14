@@ -157,12 +157,14 @@ function get1x1()
         return sortedParts
     end
     for _, section in ipairs(collectParts(tree)) do
+        startcolour = section.Color
         print(section.Name .. section.ID.Value)
+        section.Color = Color3.fromRGB(0, 1, 0) 
         local best = getBestAxeNoRequire()
 
         -- Prepare arguments for the cut event
         print(section.Size.Y)
-        local args = {
+        args = {
             [1] = section.Parent.CutEvent,
             [2] = {
                 ["tool"] = best[1],
@@ -194,10 +196,11 @@ function get1x1()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position) * CFrame.new(5, 4, 0)
             game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
             task.wait(1)
-            print(newcount)
+            print("new:" .. newcount .. " - start: " .. startcount)
             print("working on" .. section.ID.Value)
         end
         print("Chopped!!")
+        section.Color = startcolour
     end
 end
 get1x1()
