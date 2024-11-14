@@ -1,17 +1,5 @@
 -- FILLNIG
-birchregion = nil
-for _, region in ipairs(workspace:GetChildren()) do
-    if region.Name == "TreeRegion" then
-        for _, tree in ipairs(region:GetChildren()) do
-            if tree:FindFirstChild("TreeClass") then
-                if tree:FindFirstChild("TreeClass").Value == "Birch" then
-                    birchregion = region
-                    break
-                end
-            end
-        end
-    end
-end
+
 
 function findwood()
     for _, wood in ipairs(workspace.PlayerModels:GetChildren()) do
@@ -30,6 +18,19 @@ function findwood()
     return nil
 end
 
+birchregion = nil
+for _, region in ipairs(workspace:GetChildren()) do
+    if region.Name == "TreeRegion" then
+        for _, tree in ipairs(region:GetChildren()) do
+            if tree:FindFirstChild("TreeClass") then
+                if tree:FindFirstChild("TreeClass").Value == "Birch" then
+                    birchregion = region
+                    break
+                end
+            end
+        end
+    end
+end
 function getBestAxeNoRequire(hasAxe)
     Player = game.Players.LocalPlayer
     BestCooldown, BestAxe, BestValue = 0, nil, 0
@@ -98,7 +99,7 @@ function getwood()
                         [2] = {
                             ["tool"] = best[1],
                             ["faceVector"] = Vector3.new(-1, 0, 0),
-                            ["height"] = 0.1,
+                            ["height"] = 0.7449536323547363,
                             ["sectionId"] = 1,
                             ["hitPoints"] = best[3],
                             ["cooldown"] = best[2],
@@ -107,15 +108,46 @@ function getwood()
                         }
                 
                     }
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
                     while not tree:FindFirstChild("InnerWood") do
-                        game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(args)
-                        task.wait(best[2])
+                        game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
+                        task.wait(0.01)
                     end
                     break
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+                    return tree
                 end
             end
         end
     end
 end
-    
-getwood()
+function get1x1()
+    tree = getwood()
+    for _, section in tree:GetChildren() do
+        if section.Name == "WoodSection" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position)*CFrame.new(5,0,0)
+            best = getBestAxeNoRequire()
+                args = {
+                    [1] = tree.CutEvent,
+                    [2] = {
+                        ["tool"] = best[1],
+                        ["faceVector"] = Vector3.new(-1, 0, 0),
+                        ["height"] = section.Size.Y,
+                        ["sectionId"] = section.ID.Value,
+                        ["hitPoints"] = best[3],
+                        ["cooldown"] = best[2],
+                        ["cuttingClass"] = "Axe"
+            
+                    }
+            
+                }
+                game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+                while section.Parent == tree do
+                    game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
+                    task.wait(0.01)
+                end
+            end
+        end
+    end
+end
+get1x1()
