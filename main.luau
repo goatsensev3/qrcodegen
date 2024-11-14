@@ -1,9 +1,9 @@
 birchregion = nil
 newbirch = game.Workspace
 function newpart(part)
-    print("new part - " .. part.Name)
     if part.Name == "Loose_Birch" then
         if tostring(part:WaitForChild("Owner").Value) == game.Players.LocalPlayer.Name then
+            print("new part - " .. part.Name)
             newbirch = part
         end
     end
@@ -193,8 +193,11 @@ function get1x1()
             end
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position) * CFrame.new(5, 4, 0)
             game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
-            task.wait(0.01)
+            task.wait(1)
+            print(newcount)
+            print("working on" .. section.ID.Value)
         end
+        print("Chopped!!")
     end
 end
 get1x1()
