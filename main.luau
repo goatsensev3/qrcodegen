@@ -232,11 +232,12 @@ function get1x1()
                 game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
                 part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
             end
-            
+            part:FindFirstChild("WoodSection").Color = Color3.fromRGB(255, 0, 0) 
             print("moved")
         end
     end
     tosawmill = {}
+    task.wait(1)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedsawmill.Particles.CFrame
 end
 get1x1()
