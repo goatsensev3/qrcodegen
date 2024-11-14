@@ -176,27 +176,11 @@ function get1x1()
                 ["cuttingClass"] = "Axe"
             }
         }
-
-        -- While the section is part of the tree, keep interacting
-        startcount = 0
-        for _, countpart in ipairs(tree:GetChildren()) do
-            if countpart.Name == "WoodSection" then
-                startcount += 1
-            end
-        end
-        print("start " .. startcount)
-        newcount = startcount
-        while startcount >= newcount do
-            newcount = 0
-            for _, countpart in ipairs(tree:GetChildren()) do
-                if countpart.Name == "WoodSection" then
-                    newcount += 1
-                end
-            end
+        oldbirch = newbirch
+        while oldbirch == newbirch do
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(section.Position) * CFrame.new(5, 4, 0)
             game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
             task.wait(1)
-            print("new:" .. newcount .. " - start: " .. startcount)
             print("working on" .. section.ID.Value)
         end
         print("Chopped!!")
