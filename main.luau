@@ -230,7 +230,7 @@ function get1x1()
             for i = 1,50 do
                 task.wait()
                 game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
-                part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
+                part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame + Vector3.new(0, .5, 0)
             end
             task.wait(0.5)
         end
