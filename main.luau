@@ -123,13 +123,13 @@ function chop1x1(wood)
                 ["cuttingClass"] = "Axe"
             }
         }
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wood:FindFirstChild("WoodSection").CFrame*CFrame.new(0,2,3)
-        game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
         while not wood:FindFirstChild("Cut") do
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wood:FindFirstChild("WoodSection").CFrame*CFrame.new(0,2,3)
+            game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
             task.wait(0.01)
         end
         while wood:FindFirstChild("Cut") do
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wood:FindFirstChild("Cut").CFrame*CFrame.new(0,2,3)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wood:FindFirstChild("WoodSection").CFrame*CFrame.new(0,2,3)
             game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
             task.wait(0.01)
         end
@@ -279,7 +279,7 @@ function get1x1()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedsawmill.PrimaryPart.CFrame*CFrame.new(0,10,0)
 
 end
-get1x1()
+--get1x1()
 print("cutting")
 
 for _, wood in ipairs(workspace.PlayerModels:GetChildren()) do
@@ -288,7 +288,9 @@ for _, wood in ipairs(workspace.PlayerModels:GetChildren()) do
             if tostring(wood:FindFirstChild("Owner").Value) == game.Players.LocalPlayer.Name then
                 if wood:FindFirstChild("TreeClass") then
                     if wood:FindFirstChild("TreeClass").Value == "Birch" then
-                        chop1x1(wood)
+                        if wood.WoodSection.Size.Y >= 2 then
+                            chop1x1(wood)
+                        end
                     end
                 end
             end
