@@ -112,7 +112,7 @@ function chop1x1(wood)
     local best = getBestAxeNoRequire()
     for i = 1, math.floor(wood.WoodSection.Size.Y) do
         local args = {
-            [1] = tree.CutEvent,
+            [1] = wood.CutEvent,
             [2] = {
                 ["tool"] = best[1],
                 ["faceVector"] = Vector3.new(-1, 0, 0),
@@ -123,12 +123,13 @@ function chop1x1(wood)
                 ["cuttingClass"] = "Axe"
             }
         }
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wood:FindFirstChild("WoodSection").CFrame*CFrame.new(0,2,3)
         game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
-        while not tree:FindFirstChild("Cut") do
+        while not wood:FindFirstChild("Cut") do
             task.wait(0.01)
         end
-        while tree:FindFirstChild("Cut") do
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = tree:FindFirstChild("Cut").CFrame*CFrame.new(0,2,3)
+        while wood:FindFirstChild("Cut") do
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = wood:FindFirstChild("Cut").CFrame*CFrame.new(0,2,3)
             game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
             task.wait(0.01)
         end
