@@ -55,6 +55,10 @@ for _, region in ipairs(workspace:GetChildren()) do
         end
     end
 end
+
+
+
+
 function getBestAxeNoRequire(hasAxe)
     Player = game.Players.LocalPlayer
     BestCooldown, BestAxe, BestValue = 0, nil, 0
@@ -103,6 +107,34 @@ function getBestAxeNoRequire(hasAxe)
     return { BestAxe, BestCooldown, BestValue }
 end
 
+
+function chop1x1(wood)
+    local best = getBestAxeNoRequire()
+    for i = 1, math.floor(wood.Size.Y) do
+
+        local args = {
+            [1] = tree.CutEvent,
+            [2] = {
+                ["tool"] = best[1],
+                ["faceVector"] = Vector3.new(-1, 0, 0),
+                ["height"] = i,
+                ["sectionId"] = 1,
+                ["hitPoints"] = best[3],
+                ["cooldown"] = best[2],
+                ["cuttingClass"] = "Axe"
+            }
+        }
+        game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
+        while not tree:FindFirstChild("Cut") do
+            task.wait(0.01)
+        end
+        while tree:FindFirstChild("Cut") do
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = tree:FindFirstChild("Cut").CFrame*CFrame.new(0,2,3)
+            game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
+            task.wait(0.01)
+        end
+    end
+end
 
 function getwood()
     for _, tree in ipairs(birchregion:GetChildren()) do
@@ -223,24 +255,43 @@ function get1x1()
         print(part.Parent)
     end
     for _, part in pairs(tosawmill) do
-        while part.Name ~= "Plank" do
-            print(part.Name)
-            part:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 255, 0) 
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(part:FindFirstChild("WoodSection").Position) * CFrame.new(5, 4, 0)
-            for i = 1,50 do
-                task.wait()
-                game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
-                part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame + Vector3.new(0, .5, 0)
-            end
-            task.wait(0.5)
+        print(part.Name)
+        part:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 255, 0) 
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(part:FindFirstChild("WoodSection").Position) * CFrame.new(5, 4, 0)
+        for i = 1,50 do
+            task.wait()
+            game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
+            part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame + Vector3.new(0, .5, 0)
         end
+        task.wait(0.5)
         print("moved")
     end
     tosawmill = {}
-    task.wait(1)
+    task.wait(0.5)
+    tree:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 255, 0) 
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(tree:FindFirstChild("WoodSection").Position) * CFrame.new(5, 4, 0)
+    for i = 1,50 do
+        task.wait()
+        game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(tree)
+        tree:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame + Vector3.new(0, .5, 0)
+    end
+    task.wait(0.1)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedsawmill.PrimaryPart.CFrame*CFrame.new(0,10,0)
+
 end
 get1x1()
+print("cutting")
 
-
-
+for _, wood in ipairs(workspace.PlayerModels:GetChildren()) do
+    if wood.Name == "Plank" then
+        if wood:FindFirstChild("Owner") then
+            if tostring(wood:FindFirstChild("Owner").Value) == game.Players.LocalPlayer.Name then
+                if wood:FindFirstChild("TreeClass") then
+                    if wood:FindFirstChild("TreeClass").Value == "Birch" then
+                        chop1x1(wood)
+                    end
+                end
+            end
+        end
+    end
+end
