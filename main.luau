@@ -5,7 +5,7 @@ mainuser = "not_pyalt"
 tosawmill = {}
 
 for _, sawmill in ipairs(workspace.PlayerModels:GetChildren()) do
-    if sawmill.Name == "Sawmill" then
+    if sawmill.Name == "Sawmill" or sawmill.Name == "Model" then
         if sawmill:FindFirstChild("Owner") then
             if tostring(sawmill:FindFirstChild("Owner").Value) == game.Players.LocalPlayer.Name then
                 if sawmill.ItemName.Value == "Sawmill" then
@@ -16,7 +16,7 @@ for _, sawmill in ipairs(workspace.PlayerModels:GetChildren()) do
         end
     end
 end
-
+print(selectedsawmill)
 
 function newpart(part)
     if part.Name == "Loose_Birch" then
@@ -219,24 +219,23 @@ function get1x1()
     end
 
     for _, part in pairs(tosawmill) do
-        if part:FindFirstChild("WoodSection") then
-            while part.Parent ~= nil do
-                part:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 255, 0) 
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(part:FindFirstChild("WoodSection").Position) * CFrame.new(5, 4, 0)
-                for i = 1,50 do
-                    task.wait()
-                    game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
-                end
-                if isnetworkowner(part) then
-                    part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
-                else
-                    game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
-                    part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
-                end
-                task.wait(0.1)
+        print("-- " .. part.Name)
+        print(part.Parent)
+    end
+    for _, part in pairs(tosawmill) do
+        print(part.Parent)
+        while part.Parent ~= nil do
+            print("running" .. part.Parent)
+            part:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 255, 0) 
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(part:FindFirstChild("WoodSection").Position) * CFrame.new(5, 4, 0)
+            for i = 1,50 do
+                task.wait()
+                game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
+                part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
             end
-            print("moved")
+            task.wait(0.1)
         end
+        print("moved")
     end
     tosawmill = {}
     task.wait(1)
