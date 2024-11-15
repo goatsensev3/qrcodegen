@@ -230,10 +230,9 @@ function get1x1()
             for i = 1,50 do
                 task.wait()
                 game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(part)
-                print(selectedsawmill.Name)
                 part:FindFirstChild("WoodSection").CFrame = selectedsawmill.Particles.CFrame
             end
-            task.wait(0.1)
+            task.wait(0.5)
         end
         print("moved")
     end
