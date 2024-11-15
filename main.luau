@@ -223,9 +223,9 @@ function get1x1()
         print(part.Parent)
     end
     for _, part in pairs(tosawmill) do
-        print(part.Parent)
-        while part.Parent ~= nil do
-            print("running" .. part.Parent)
+        print(part.Parent.Name)
+        while part.Parent.Name ~= nil do
+            print("running" .. part.Parent.Name)
             part:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 255, 0) 
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(part:FindFirstChild("WoodSection").Position) * CFrame.new(5, 4, 0)
             for i = 1,50 do
