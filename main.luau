@@ -110,8 +110,7 @@ end
 
 function chop1x1(wood)
     local best = getBestAxeNoRequire()
-    for i = 1, math.floor(wood.Size.Y) do
-
+    for i = 1, math.floor(wood.WoodSection.Size.Y) do
         local args = {
             [1] = tree.CutEvent,
             [2] = {
