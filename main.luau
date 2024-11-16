@@ -1,6 +1,7 @@
 birchregion = nil
 movebirch = true
 newbirch = game.Workspace
+newplank = game.Workspace
 mainuser = "not_pyalt"
 tosawmill = {}
 
@@ -34,6 +35,11 @@ function newpart(part)
                     table.insert(tosawmill, part)
                 end
             end
+        end
+    end
+    if part.Name == "Plank" then
+        if tostring(part:WaitForChild("Owner").Value) == game.Players.LocalPlayer.Name then
+            newplank = part
         end
     end
 end
@@ -116,7 +122,7 @@ function chop1x1(wood)
             [2] = {
                 ["tool"] = best[1],
                 ["faceVector"] = Vector3.new(-1, 0, 0),
-                ["height"] = i,
+                ["height"] = 1,
                 ["sectionId"] = 1,
                 ["hitPoints"] = best[3],
                 ["cooldown"] = best[2],
@@ -134,6 +140,7 @@ function chop1x1(wood)
             task.wait(0.01)
         end
     end
+    return newplank
 end
 
 function getwood()
