@@ -289,7 +289,7 @@ function find1x1()
                 if tostring(wood:FindFirstChild("Owner").Value) == game.Players.LocalPlayer.Name then
                     if wood:FindFirstChild("TreeClass") then
                         if wood:FindFirstChild("TreeClass").Value == "Birch" then
-                            if wood.WoodSection.Size.Y >= 1 and wood.WoodSection.Size.Y > 2 then
+                            if wood.WoodSection.Size.Y >= 1 and wood.WoodSection.Size.Y < 2 then
                                 return wood
                             end
                             if wood.WoodSection.Size.Y >= 2 then
@@ -314,14 +314,17 @@ for _, i in ipairs(game.Workspace:WaitForChild("PlayerModels"):GetChildren()) do
                 print("uh nul")
             else
                 print(plank.Name)
+                
                 plank:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 255, 0) 
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(plank:FindFirstChild("WoodSection").Position) * CFrame.new(0, 4, 0)
                 for v = 1,50 do
+                    if not if i:FindFirstChild("BuildDependentWood") then
+                        break
+                    end
                     task.wait()
                     game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(plank)
-                    if i:FindFirstChild("BuildDependentWood") then
-                        plank:FindFirstChild("WoodSection").CFrame = i.BuildDependentWood.CFrame
-                    end
+                    plank:FindFirstChild("WoodSection").CFrame = i.BuildDependentWood.CFrame
+                  
                 end
             end
         end
