@@ -130,12 +130,12 @@ function chop1x1(wood)
         }
     }
     while not wood:FindFirstChild("Cut") do
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(wood:FindFirstChild("WoodSection").Position)*CFrame.new(0,5,0)
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(wood:FindFirstChild("WoodSection").Position)*CFrame.new(0, 4, 4)
         game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
         task.wait(0.01)
     end
     while wood:FindFirstChild("Cut") do
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(wood:FindFirstChild("WoodSection").Position)*CFrame.new(0,5,0)
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(wood:FindFirstChild("WoodSection").Position)*CFrame.new(0, 4, 4)
         game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
         task.wait(0.01)
     end
@@ -317,7 +317,7 @@ function fill1()
                     print(plank.Name)
                     print(plank.WoodSection.Size.Y)
                     plank:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 0, 255) 
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(plank:FindFirstChild("WoodSection").Position) * CFrame.new(0, 4, 0)
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(plank:FindFirstChild("WoodSection").Position) * CFrame.new(0, 4, 4)
                     for v = 1,50 do
                         task.wait()
                         game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(plank)
