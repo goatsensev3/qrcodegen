@@ -319,7 +319,9 @@ for _, i in ipairs(game.Workspace:WaitForChild("PlayerModels"):GetChildren()) do
                 for v = 1,50 do
                     task.wait()
                     game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(plank)
-                    plank:FindFirstChild("WoodSection").CFrame = i.BuildDependentWood.CFrame
+                    if i:FindFirstChild("BuildDependentWood") then
+                        plank:FindFirstChild("WoodSection").CFrame = i.BuildDependentWood.CFrame
+                    end
                 end
             end
         end
