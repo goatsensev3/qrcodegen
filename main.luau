@@ -308,7 +308,7 @@ end
 
 function fill1()
     for _, i in ipairs(game.Workspace:WaitForChild("PlayerModels"):GetChildren()) do
-        if i.Name == "Floor1Tiny" then
+        if i.Name == i.Name then
             if tostring(i:WaitForChild("Owner").Value) == mainuser then
                 plank = find1x1()
                 if plank == nil then
