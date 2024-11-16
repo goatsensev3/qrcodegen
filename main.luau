@@ -318,7 +318,7 @@ for _, i in ipairs(game.Workspace:WaitForChild("PlayerModels"):GetChildren()) do
                 plank:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 255, 0) 
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(plank:FindFirstChild("WoodSection").Position) * CFrame.new(0, 4, 0)
                 for v = 1,50 do
-                    if not if i:FindFirstChild("BuildDependentWood") then
+                    if not i:FindFirstChild("BuildDependentWood") then
                         break
                     end
                     task.wait()
