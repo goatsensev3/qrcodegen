@@ -314,17 +314,15 @@ for _, i in ipairs(game.Workspace:WaitForChild("PlayerModels"):GetChildren()) do
                 print("uh nul")
             else
                 print(plank.Name)
-                
+                print(plank.WoodSection.Size.Y)
                 plank:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 255, 0) 
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(plank:FindFirstChild("WoodSection").Position) * CFrame.new(0, 4, 0)
                 for v = 1,50 do
-                    if not i:FindFirstChild("BuildDependentWood") then
-                        break
-                    end
                     task.wait()
                     game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(plank)
-                    plank:FindFirstChild("WoodSection").CFrame = i.BuildDependentWood.CFrame
-                  
+                    if i:FindFirstChild("BuildDependentWood") then
+                        plank:FindFirstChild("WoodSection").CFrame = i.BuildDependentWood.CFrame
+                    end
                 end
             end
         end
