@@ -306,25 +306,33 @@ function find1x1()
     return find1x1()
 end
 
-for _, i in ipairs(game.Workspace:WaitForChild("PlayerModels"):GetChildren()) do
-    if i.Name == "Floor1Tiny" then
-        if tostring(i:WaitForChild("Owner").Value) == mainuser then
-            plank = find1x1()
-            if plank == nil then
-                print("uh nul")
-            else
-                print(plank.Name)
-                print(plank.WoodSection.Size.Y)
-                plank:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 0, 255) 
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(plank:FindFirstChild("WoodSection").Position) * CFrame.new(0, 4, 0)
-                for v = 1,50 do
-                    task.wait()
-                    game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(plank)
-                    if i:FindFirstChild("BuildDependentWood") then
-                        plank:FindFirstChild("WoodSection").CFrame = i.BuildDependentWood.CFrame
+function fill1()
+    for _, i in ipairs(game.Workspace:WaitForChild("PlayerModels"):GetChildren()) do
+        if i.Name == "Floor1Tiny" then
+            if tostring(i:WaitForChild("Owner").Value) == mainuser then
+                break
+                plank = find1x1()
+                if plank == nil then
+                    print("uh nul")
+                else
+                    print(plank.Name)
+                    print(plank.WoodSection.Size.Y)
+                    plank:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 0, 255) 
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(plank:FindFirstChild("WoodSection").Position) * CFrame.new(0, 4, 0)
+                    for v = 1,50 do
+                        task.wait()
+                        game.ReplicatedStorage.Interaction.ClientIsDragging:FireServer(plank)
+                        if i:FindFirstChild("BuildDependentWood") and plank:FindFirstChild("WoodSection") then
+                            plank:FindFirstChild("WoodSection").CFrame = i.BuildDependentWood.CFrame
+                        end
                     end
                 end
             end
         end
     end
+end
+
+while true do
+    fill1()
+    task.wait(0.05)
 end
