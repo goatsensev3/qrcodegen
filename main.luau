@@ -139,7 +139,7 @@ function chop1x1(wood)
         game:GetService("ReplicatedStorage").Interaction.RemoteProxy:FireServer(unpack(args))
         task.wait(0.01)
     end
-    return newplank
+    return wood
 end
 
 function getwood()
@@ -315,7 +315,7 @@ for _, i in ipairs(game.Workspace:WaitForChild("PlayerModels"):GetChildren()) do
             else
                 print(plank.Name)
                 print(plank.WoodSection.Size.Y)
-                plank:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 255, 0) 
+                plank:FindFirstChild("WoodSection").Color = Color3.fromRGB(0, 0, 255) 
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(plank:FindFirstChild("WoodSection").Position) * CFrame.new(0, 4, 0)
                 for v = 1,50 do
                     task.wait()
