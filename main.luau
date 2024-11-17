@@ -308,7 +308,7 @@ end
 
 function fill1()
     for _, i in ipairs(game.Workspace:WaitForChild("PlayerModels"):GetChildren()) do
-        if i.Name == "Post" then
+        if i.Name == "Floor1Tiny" then
             if i.BuildDependentWood.Color ~= Color3.fromRGB(205, 205, 205) then
                 if tostring(i:WaitForChild("Owner").Value) == mainuser then
                     plank = find1x1()
